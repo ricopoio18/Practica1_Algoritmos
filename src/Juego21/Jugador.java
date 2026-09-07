@@ -5,26 +5,14 @@ import DeckOfCards.*;
 import java.util.ArrayList;
 
 public class Jugador {
-    private ArrayList<CartaInglesa> mano;
     private String nombre;
+    private ArrayList<CartaInglesa> mano;
     private int puntuacion;
-    private boolean ganador;
-    private boolean deal;
 
-    public Jugador(String nombre, int puntuacion) {
-        mano = new ArrayList<>();
+    public Jugador(String nombre){
         this.nombre = nombre;
-        this.puntuacion = puntuacion;
-        ganador = false;
-        deal = false;
-    }
-
-    public Jugador(){
-        mano = new ArrayList<>();
-        nombre = "Jotaro";
         puntuacion = 0;
-        ganador = false;
-        deal = false;
+        mano = new ArrayList<CartaInglesa>();
     }
 
     public boolean añadirCartas(CartaInglesa carta){
@@ -35,36 +23,15 @@ public class Jugador {
         return true;
     }
 
-    public void setDeal(boolean deal){
-        this.deal = deal;
-    }
-
-    public void setGanador(){
-        this.ganador = true;
-    }
-
-    public void setPuntos(int puntos){
+    public void sumarPuntos(int puntos){
         puntuacion += puntos;
     }
 
-    public void setNombre(String nombre){
-        this.nombre = nombre;
-    }
-
-    public int getPuntuacion(){
+    public int getPuntos(){
         return puntuacion;
     }
-
-    public boolean getDeal(){
-        return deal;
-    }
-
-    public boolean getGanador(){
-        return ganador;
-    }
-
-    public String getNombre(){
-        return nombre;
+    public void limpiarMano(){
+        mano.clear();
     }
 
     public ArrayList<CartaInglesa> getMano(){
