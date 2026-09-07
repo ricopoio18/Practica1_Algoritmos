@@ -38,6 +38,10 @@ public class Jugador {
         return mano;
     }
 
+    public String getNombre(){
+        return nombre;
+    }
+
 
 
 }
