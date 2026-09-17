@@ -36,7 +36,7 @@ public class ControladorJuego21 {
                     modelo.getDealer(),
                     modelo.getJugadores(),
                     modelo.getPuntuaciones(),
-                    modelo.getGanadores()
+                    modelo.getResultados()
             );
 
             seguirJugando = vista.preguntarOtraRonda();

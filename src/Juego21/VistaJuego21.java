@@ -72,25 +72,56 @@ public class VistaJuego21 {
         System.out.println("El Dealer se planta.");
     }
 
-    public void mostrarResultadosFinales(Dealer dealer, ArrayList<Jugador> jugadores, HashMap<String, Integer> puntuaciones, HashMap<String, Boolean> ganadores) {
+    public void mostrarResultadosFinales(Dealer dealer, ArrayList<Jugador> jugadores, HashMap<String, Integer> puntuaciones, HashMap<String, Resultado> resultados) {
 
         System.out.println("\n--- Resultados ---");
         int puntosDealer = puntuaciones.get(dealer.getNombre());
-        System.out.println("Dealer: " + puntosDealer + " puntos " + dealer.getMano());
+
+        System.out.println(
+                "Dealer: " + puntosDealer + " puntos " + dealer.getMano()
+        );
+
+        boolean dealerGanoContraTodos = true;
+        boolean todosEmpataron = true;
 
         for (Jugador jugador : jugadores) {
+
             String nombre = jugador.getNombre();
             int puntosJugador = puntuaciones.get(nombre);
+            Resultado resultado = resultados.get(nombre);
+            System.out.println(
+                    nombre + ": " + puntosJugador + " puntos " + jugador.getMano() + " -> " + resultado
+            );
 
-            String resultado;
-            if (puntosJugador <= 21 && puntosJugador == puntosDealer) {
-                resultado = "Empate";
-
-            } else {
-                resultado = ganadores.get(nombre) ? "Ganador" : "Perdedor";
+            if (resultado != Resultado.PERDEDOR) {
+                dealerGanoContraTodos = false;
             }
 
-            System.out.println(nombre + ": " + puntosJugador + " puntos " + jugador.getMano() + " -> " + resultado);
+            if (resultado != Resultado.EMPATE) {
+                todosEmpataron = false;
+            }
+        }
+
+        if (dealerGanoContraTodos) {
+
+            System.out.println("\nDealer gana la ronda.");
+
+        } else if (todosEmpataron) {
+            System.out.println("\nLa ronda termina en empate.");
+
+        } else if (jugadores.size() == 1) {
+            Jugador jugador = jugadores.get(0);
+            Resultado resultado = resultados.get(jugador.getNombre());
+
+            if (resultado == Resultado.GANADOR) {
+                System.out.println("\n" + jugador.getNombre() + " gana la ronda.");
+
+            } else if (resultado == Resultado.EMPATE) {
+                System.out.println("\nLa ronda termina en empate.");
+            }
+
+        } else {
+            System.out.println("\nResultados individuales contra el Dealer.");
         }
     }
 

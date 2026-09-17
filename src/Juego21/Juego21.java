@@ -10,13 +10,13 @@ public class Juego21 {
     private ArrayList<Jugador> jugadores;
     private Dealer dealer;
     private HashMap<String, Integer> puntuaciones;
-    private HashMap<String, Boolean> ganadores;
+    private HashMap<String, Resultado> resultados;
 
     public Juego21() {
         jugadores = new ArrayList<>();
         dealer = new Dealer();
         puntuaciones = new HashMap<>();
-        ganadores = new HashMap<>();
+        resultados = new HashMap<>();
     }
 
     public boolean añadirJugadores(String nombre) {
@@ -89,12 +89,28 @@ public class Juego21 {
     }
 
     public void determinarGanadores() {
-        int puntosDealer = EvaluacionPuntos.obtenerTotalPuntos(dealer);puntuaciones.put(dealer.getNombre(), puntosDealer);
+
+        int puntosDealer = dealer.getPuntos();
+        puntuaciones.put(dealer.getNombre(), puntosDealer);
 
         for (Jugador jugador : jugadores) {
-            int puntosJugador = EvaluacionPuntos.obtenerTotalPuntos(jugador);puntuaciones.put(jugador.getNombre(), puntosJugador);
-            boolean victoria = EvaluacionPuntos.esVictoria(puntosJugador, puntosDealer);
-            ganadores.put(jugador.getNombre(), victoria);
+            int puntosJugador = jugador.getPuntos();
+            puntuaciones.put(jugador.getNombre(), puntosJugador);
+            Resultado resultado;
+
+            if (puntosJugador > 21) {
+                resultado = Resultado.PERDEDOR;
+            } else if (puntosDealer > 21) {
+                resultado = Resultado.GANADOR;
+            } else if (puntosJugador > puntosDealer) {
+                resultado = Resultado.GANADOR;
+            } else if (puntosJugador < puntosDealer) {
+                resultado = Resultado.PERDEDOR;
+            } else {
+                resultado = Resultado.EMPATE;
+            }
+
+            resultados.put(jugador.getNombre(), resultado);
         }
     }
 
@@ -106,7 +122,7 @@ public class Juego21 {
         dealer.limpiarMano();
         dealer.reiniciarMazo();
         puntuaciones.clear();
-        ganadores.clear();
+        resultados.clear();
     }
 
     public ArrayList<Jugador> getJugadores() {
@@ -121,7 +137,7 @@ public class Juego21 {
         return puntuaciones;
     }
 
-    public HashMap<String, Boolean> getGanadores() {
-        return ganadores;
+    public HashMap<String, Resultado> getResultados() {
+        return resultados;
     }
 }
